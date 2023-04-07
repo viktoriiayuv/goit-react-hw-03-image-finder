@@ -1,16 +1,17 @@
+import PropTypes from 'prop-types';
 import { Component } from 'react';
 
 import { getImages } from 'services/getImages';
-
 import { ImageGalleryContainer } from './ImageGallery.styled';
+
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 import Button from 'components/Button/Button';
+import Loader from 'components/Loader/Loader';
 
 class ImageGallery extends Component {
   state = {
     images: [],
     totalPages: 0,
-    error: '',
     isLoading: false,
   };
 
@@ -24,12 +25,17 @@ class ImageGallery extends Component {
       this.setState({ isLoading: true });
       getImages(currSearchText, currPage)
         .then(response => {
-          console.log(response);
-          if (response.ok) return response.json();
-          else return Promise.reject(response.statusText);
+          if (!response.ok) {
+            return Promise.reject('Oops, something went wrong');
+          }
+          return response.json();
         })
         .then(data => {
-          console.log(data);
+          if (data.hits.length === 0) {
+            return Promise.reject(
+              `Oops, there are no images found for request: ${currSearchText}`
+            );
+          }
           const totalPages = Math.ceil(data.totalHits / 12);
           this.setState(prev => {
             if (currPage === 1) {
@@ -42,7 +48,7 @@ class ImageGallery extends Component {
           });
         })
         .catch(error => {
-          this.setState({ error });
+          alert(error);
         })
         .finally(() => {
           this.setState({ isLoading: false });
@@ -51,8 +57,8 @@ class ImageGallery extends Component {
   }
 
   render() {
-    const { images } = this.state;
-    const { handlePageChange } = this.props;
+    const { images, isLoading, totalPages } = this.state;
+    const { handlePageChange, searchPage } = this.props;
 
     return (
       <>
@@ -66,10 +72,19 @@ class ImageGallery extends Component {
             />
           ))}
         </ImageGalleryContainer>
-        <Button onClick={handlePageChange} />
+        {isLoading && <Loader />}
+        {!isLoading && images.length > 0 && searchPage < totalPages && (
+          <Button onClick={handlePageChange} />
+        )}
       </>
     );
   }
 }
+
+ImageGallery.propTypes = {
+  handlePageChange: PropTypes.func.isRequired,
+  searchPage: PropTypes.number.isRequired,
+  searchText: PropTypes.string.isRequired,
+};
 
 export default ImageGallery;

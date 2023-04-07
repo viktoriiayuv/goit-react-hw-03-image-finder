@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -20,7 +21,6 @@ class Modal extends Component {
   };
 
   handleBackdropClick = e => {
-    console.log(e.currentTarget === e.target);
     if (e.currentTarget === e.target) {
       this.props.onClose();
     }
@@ -38,5 +38,11 @@ class Modal extends Component {
     );
   }
 }
+
+Modal.propTypes = {
+  alt: PropTypes.string.isRequired,
+  src: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 export default Modal;

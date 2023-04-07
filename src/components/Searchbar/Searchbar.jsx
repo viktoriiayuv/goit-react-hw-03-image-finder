@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import {
   SearchbarContainer,
   SearchForm,
@@ -42,5 +44,9 @@ class Searchbar extends Component {
     );
   }
 }
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
 
 export default Searchbar;
