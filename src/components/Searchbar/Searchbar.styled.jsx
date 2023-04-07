@@ -50,7 +50,7 @@ export const SearchFormBtn = styled.button`
   width: 48px;
   height: 48px;
   border: 0;
-  background-image: url('https://image.flaticon.com/icons/svg/149/149852.svg');
+  background-image: url('https://w7.pngwing.com/pngs/50/858/png-transparent-search-find-magnifier.png');
   background-size: 40%;
   background-repeat: no-repeat;
   background-position: center;

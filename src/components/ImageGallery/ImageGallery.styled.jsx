@@ -9,6 +9,5 @@ export const ImageGalleryContainer = styled.ul`
   margin-bottom: 0;
   padding: 0;
   list-style: none;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 12px auto;
 `;
