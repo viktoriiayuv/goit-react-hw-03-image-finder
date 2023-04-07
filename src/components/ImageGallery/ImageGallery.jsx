@@ -62,16 +62,18 @@ class ImageGallery extends Component {
 
     return (
       <>
-        <ImageGalleryContainer>
-          {images.map(({ id, webformatURL, largeImageURL, tags }) => (
-            <ImageGalleryItem
-              key={id}
-              srcSmallImg={webformatURL}
-              srcLargeImg={largeImageURL}
-              alt={tags}
-            />
-          ))}
-        </ImageGalleryContainer>
+        {images.length > 0 && (
+          <ImageGalleryContainer>
+            {images.map(({ id, webformatURL, largeImageURL, tags }) => (
+              <ImageGalleryItem
+                key={id}
+                srcSmallImg={webformatURL}
+                srcLargeImg={largeImageURL}
+                alt={tags}
+              />
+            ))}
+          </ImageGalleryContainer>
+        )}
         {isLoading && <Loader />}
         {!isLoading && images.length > 0 && searchPage < totalPages && (
           <Button onClick={handlePageChange} />
